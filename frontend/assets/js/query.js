@@ -1,5 +1,3 @@
-let books = document.querySelector('.books');
-
 const getBooks = async() => {
     const response = await fetch('http://localhost:3000/books');
     const dataB = await response.json();
@@ -7,25 +5,11 @@ const getBooks = async() => {
     return dataB;
 }
 
-const main = async () => {
-    let dataBooks = await getBooks();
-
-    console.log(dataBooks);
-
-    for (const book in dataBooks) {
-        console.log("test");
-    }
+const getAuthors = async() => {
+    const response = await fetch('http://localhost:3000/authors');
+    const dataA = await response.json();
+    displayAuthors(dataA)
+    return dataA;
 }
 
-main();
-
-// for (const book of dataB) {
-//     section.innerHTML += `
-//     <div class="book">
-//         <h2>${book.id}</h2>
-//     </div>
-//     `
-// }
-// const main = async () => {
-//     let dataB = await getBooks();
-// }
+// export { getBooks, getAuthors }
