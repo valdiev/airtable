@@ -28,5 +28,3 @@ base('Books').select({
 }, function done(err) {
     if (err) { console.error(err); return; }
 });
-
-console.log("test");
