@@ -30,7 +30,7 @@ const displayAuthors = (authors) => {
             <article class="author">
                 <span><strong>${author.name}</strong></span>
             </article>
-        `;
+            `;
         })
         .join('');
     authorsContainer.innerHTML = htmlString;

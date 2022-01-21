@@ -1,27 +1,40 @@
-const getBooks = async() => {
-    const response = await fetch('http://localhost:3000/books');
-    const dataB = await response.json();
-    
-    return dataB;
-}
-// import { getBooks } from './query.js'
-
 let booksContainer = document.querySelector('.books');
+const searchBar = document.querySelector("#search");
+let dataBooks = [];
 
-const main = async () => {
-    let dataBooks = Array.from(await getBooks());
+searchBar.addEventListener('keyup', (e) => {
+    const searchString = e.target.value.toLowerCase();
 
-    // console.log(dataBooks);
+    const filteredBooks = dataBooks.filter((book) => {
+        return (
+            book.title.toLowerCase().includes(searchString)
+        );
+    });
+    displayBooks(filteredBooks);
+});
 
-    for (const book of dataBooks) {
-        booksContainer.innerHTML += `
-        <article class="book">
-            <div class="poster"><img src="${book.poster[0].url}"></div>
-            <span><strong>${book.title}</strong></span>
-            <div class="topic flex">${ book.topic }</div>
-        </article>
-        `
+const getBooks = async() => {
+    try {
+        const res = await fetch('http://localhost:3000/books');
+        dataBooks = await res.json();
+        displayBooks(dataBooks);
+    } catch (err) {
+        console.error(err)
     }
-}
+};
 
-main();
+const displayBooks = (books) => {
+    const htmlString = books
+        .map((book) => {
+            return `
+                <article class="book">
+                    <div class="poster"><img src="${book.poster[0].url}"></div>
+                    <span><strong>${book.title}</strong></span>
+                    <div class="topic flex">${ book.topic }</div>
+                </article>
+            `;
+        })
+        .join('');
+    booksContainer.innerHTML = htmlString;
+};
+getBooks();
